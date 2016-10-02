@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MapWrapperExample</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">Map in Activity</string>
+    <string name="title_fragment_map">Map in Fragment</string>
 
 
     <string name="error_device_not_supported">This device is not supported.</string>
@@ -13,6 +14,8 @@
 
 
     <!--Dialogs connection-->
+    <string name="dialog_network_error_title">Network Error</string>
+    <string name="dialog_network_error_body">%1$s needs Network Connection, please enable your Internet connection</string>
     <string name="dialog_location_access_title">Location access</string>
     <string name="dialog_location_access_body">You can activate your GPS to enable location tracking</string>
 

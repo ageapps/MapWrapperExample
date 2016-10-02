@@ -54,7 +54,8 @@ public abstract class LocationActivity extends AppCompatActivity implements Goog
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (MapUtils.checkPlayServices(this)) {
+        if (LocationUtils.checkPlayServices(this)) {
+            LocationUtils.checkNetworkConnection(this);
             buildGoogleApiClient();
         }
 
@@ -95,12 +96,12 @@ public abstract class LocationActivity extends AppCompatActivity implements Goog
             // Access to the location has been granted to the app.
 
             // Check if location is enabled
-            if (MapUtils.isGPSConnected(LocationActivity.this)) {
+            if (LocationUtils.isGPSConnected(LocationActivity.this)) {
                 googleMap.setMyLocationEnabled(true);
                 displayLocation();
             } else {
                 // Show request GPS enabled
-                MapUtils.requestLocation(mGoogleApiClient, this, !gpsNeeded);
+                LocationUtils.requestLocation(mGoogleApiClient, this, !gpsNeeded);
             }
         }
     }
@@ -222,7 +223,7 @@ public abstract class LocationActivity extends AppCompatActivity implements Goog
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             // Check for the integer request code originally supplied to startResolutionForResult().
-            case MapUtils.REQUEST_CHECK_SETTINGS:
+            case LocationUtils.REQUEST_CHECK_SETTINGS:
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         Log.i(TAG, "User agreed to make required location settings changes.");
@@ -233,8 +234,8 @@ public abstract class LocationActivity extends AppCompatActivity implements Goog
                         break;
                 }
                 break;
-            case MapUtils.REQUEST_GPS_SETTINGS:
-                if (MapUtils.isGPSConnected(this)) {
+            case LocationUtils.REQUEST_GPS_SETTINGS:
+                if (LocationUtils.isGPSConnected(this)) {
                     enableMyLocation();
                 }
         }

@@ -6,7 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.res.Resources;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,7 +34,7 @@ import es.age.apps.mapwrapperexample.R;
  * Created by adricacho on 2/10/16.
  */
 
-public class MapUtils {
+public class LocationUtils {
 
     public final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
 
@@ -40,7 +43,7 @@ public class MapUtils {
     public static final int REQUEST_GPS_SETTINGS = 2;
 
 
-    public static String TAG = "MapUtils";
+    public static String TAG = "LocationUtils";
 
     /**
      * Method to verify google play services on the device
@@ -71,6 +74,48 @@ public class MapUtils {
     }
 
 
+
+    public static void checkNetworkConnection(Activity ctx) {
+        if (!isConnected(ctx)) {
+            showErrorConectionDialog(ctx);
+        }
+    }
+
+    /**
+     * Show dialog with no network connection message
+     */
+    public static void showErrorConectionDialog(final Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(R.string.dialog_network_error_title);  // Internet not found
+        Resources res = activity.getResources();
+        builder.setMessage(String.format(res.getString(R.string.dialog_network_error_body), res.getString(R.string.app_name)));
+        builder.setPositiveButton(activity.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                activity.finish();
+            }
+        });
+        builder.create().show();
+    }
+
+
+    /**
+     * Check internet connection
+     */
+    public static boolean isConnected(Context ctx) {
+        ConnectivityManager conMgr = (ConnectivityManager) ctx
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo i = conMgr.getActiveNetworkInfo();
+        if (i == null)
+            return false;
+        if (!i.isConnected())
+            return false;
+        if (!i.isAvailable())
+            return false;
+        return true;
+    }
+
+
     /**
      * Check gps connection
      */
@@ -81,6 +126,9 @@ public class MapUtils {
     }
 
 
+    /**
+     * Reques user location using FusedLocationAPI, so the user doesn´t have to go to settings
+     */
     public static boolean requestLocation(GoogleApiClient client, final AppCompatActivity activity, final boolean cancelable) {
         if (activity != null) {
             Log.d(TAG, "requestLocation: ");
@@ -137,6 +185,11 @@ public class MapUtils {
         return false;
     }
 
+
+    /**
+     * Request location using the "classic" way, it means, setting an intent to Location settings and letting the user activate them.
+     * This is used when the user disabled location with FusedLocationAPI
+     */
     public static void checkLocationEnabledClassic(final Activity activity, final boolean cancelable) {
         if (activity != null) {
             Log.d(TAG, "checkLocationEnabledClassic: ");
