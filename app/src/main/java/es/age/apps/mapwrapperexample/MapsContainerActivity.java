@@ -22,7 +22,7 @@ public class MapsContainerActivity extends LocationActivity implements MapFragme
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        transaction.add(R.id.fragment_container, mapFragment, "mapFragment");
+        transaction.replace(R.id.fragment_container, mapFragment, "mapFragment");
         transaction.commit();
     }
 

@@ -2,7 +2,10 @@
     <string name="app_name">MapWrapperExample</string>
     <string name="title_activity_maps">Map in Activity</string>
     <string name="title_fragment_map">Map in Fragment</string>
+    <string name="title_activity_main">MapWrapperExample</string>
 
+
+    <!--......................Strings needed for Map wrapper.....................-->
 
     <string name="error_device_not_supported">This device is not supported.</string>
 
@@ -23,8 +26,6 @@
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
 
-
-
-    <string name="title_activity_main">MapWrapperExample</string>
+    <!--...........................................................................-->
 
 </resources>
